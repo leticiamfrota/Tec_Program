@@ -13,3 +13,21 @@ class Conta:
 class Banco:
     def __init__(self):
         pass
+
+    def cadastrar(self, conta: Conta):
+        pass
+    
+    def procurar (self, numero:str)->Conta:
+        pass
+    
+    def creditar(self, numero:str, valor:float)->None:
+        pass 
+
+    def debitar(self, numero:str, valor:float)->None:
+        pass
+    
+    def saldo(self,numero:str)->float:
+        pass
+
+    def transferir(self, origem:str, destino:str, valor:float)->None:
+        pass
