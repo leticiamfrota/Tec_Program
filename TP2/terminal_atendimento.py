@@ -1,4 +1,4 @@
-from sisbanco import Conta, Banco
+from sisbanco import *
 
 def terminal():
     sisbanco = Banco()
