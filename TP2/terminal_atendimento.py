@@ -25,14 +25,14 @@ def terminal():
             #solicite o numero da conta alvo
             conta_alvo_cred = input("Num: ")
             #solicite o valor a ser creditado
-            valor_cred = input("Valor: ")
+            valor_cred = float(input("Valor: "))
             #realize a operacao de credito no sis banco
             sisbanco.creditar(conta_alvo_cred, valor_cred)
         elif opcao == 2:
             #solicite o numero da conta alvo
             conta_alvo_deb = input("Num: ")
             #solicite o valor a ser debitado
-            valor_deb = input("Valor: ")
+            valor_deb = float(input("Valor: "))
             #realize a operacao de debito no sis banco
             sisbanco.debitar(conta_alvo_deb, valor_deb)
         elif opcao == 3:
@@ -41,7 +41,7 @@ def terminal():
             #solicite o numero da conta destino
             conta_destino = input("Num_destino: ")
             #solicite o valor a ser transferido
-            valor_transf = input("Valor: ")
+            valor_transf = float(input("Valor: "))
             #realize a operacao de transferencia no sis banco
             sisbanco.transferir(conta_origem, conta_destino, valor_transf)
         elif opcao == 4:
@@ -54,6 +54,6 @@ def terminal():
         elif opcao == 5:
             print("SisBanco::Bye!")
             return
-
+        
 
 terminal()

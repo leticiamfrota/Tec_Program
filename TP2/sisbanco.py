@@ -16,13 +16,14 @@ class Banco:
         self.__contas = []
 
     def cadastrar(self, conta: Conta):
-        self.__contas.append(Conta)
+        self.__contas.append(conta)
     
     def procurar (self, numero:str)->Conta:
         for conta in self.__contas:
             if conta.get_numero() == numero:
                 return conta
-        return None
+        else:
+            return None
     
     def creditar(self, numero:str, valor:float)->None:
         conta = self.procurar(numero)
@@ -37,7 +38,7 @@ class Banco:
     def saldo(self,numero:str)->float:
         conta = self.procurar(numero)
         if conta is not None:
-            conta.get_saldo()
+            return conta.get_saldo()
 
     def transferir(self, origem:str, destino:str, valor:float)->None:
         conta_origem = self.procurar(origem)
@@ -45,3 +46,4 @@ class Banco:
         if conta_origem and conta_destino is not None:
             conta_origem.debitar(valor)
             conta_destino.creditar(valor)
+
