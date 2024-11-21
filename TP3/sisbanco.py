@@ -12,8 +12,9 @@ class Conta:
         return self.__saldo
 
 class Banco:
-    def __init__(self):
+    def __init__(self, taxa: float = 0.01):
         self.__contas = []
+        self.__taxa = taxa
 
     def cadastrar(self, conta: Conta):
         self.__contas.append(conta)
@@ -38,6 +39,22 @@ class Banco:
         conta = self.procurar(numero)
         if conta is not None:
             return conta.get_saldo()
+        
+    def render_juros(self, numero:str) -> None:
+        conta = self.procurar(numero)
+        if isinstance(conta, ContaPoupanca):
+            conta.render_juros(self.__taxa)
+
+    def get_taxa(self) -> float:
+        return self.__taxa
+
+    def set_taxa(self, taxa:float) -> None:
+        self.__taxa = taxa
+    
+    def render_bonus(self, numero:str) -> None:
+        conta = self.procurar(numero)
+        if isinstance(conta, ContaEspecial):
+            conta.render_bonus()
 
     def transferir(self, origem:str, destino:str, valor:float)->None:
         conta_origem = self.procurar(origem)
@@ -45,4 +62,21 @@ class Banco:
         if conta_origem and conta_destino is not None:
             conta_origem.debitar(valor)
             conta_destino.creditar(valor)
+
+class ContaPoupanca(Conta):
+    def __init__(self, numero:str):
+        super().__init__(numero)
+    def render_juros(self, taxa:float) -> None:
+        self.creditar(self.get_saldo() * taxa)
+
+class ContaEspecial(Conta):
+    def __init__(self, numero:str):
+        super().__init__(numero)
+        self.__bonus = 0
+    def render_bonus(self) -> None:
+        self.creditar(self.__bonus)
+        self.__bonus = 0
+    def creditar(self, valor:float) -> None:
+        self.__bonus += valor * 0.01
+        super().creditar(valor)
 
