@@ -24,14 +24,14 @@ def terminal():
             print ("P-Poupança")
             print ("E-Especial")
             print ("I-Imposto")
-            tipo = int(input("Tipo:"))
+            tipo = input("Tipo:")
             if tipo == 'S':
                 conta = Conta(num_conta)
             elif tipo == 'P':
                 conta = ContaPoupanca(num_conta)
             elif tipo == 'E': 
                 conta = ContaEspecial(num_conta)
-            elif tipo == 'I'
+            elif tipo == 'I':
                 conta = ContaImposto(num_conta)
             #cadastre a conta no sis banco
             sisbanco.cadastrar(conta)
@@ -74,8 +74,11 @@ def terminal():
             sisbanco.render_bonus(conta_alvo)
         elif opcao == 7 :
             taxa = float(input('Taxa: '))
-            sisbanco.set_taxa(taxa)
+            sisbanco.set_taxa_poupanca(taxa)
         elif opcao == 8 :
+            taxa = float(input('Taxa: '))
+            sisbanco.set_taxa_imposto(taxa)
+        elif opcao == 9 :
             print ("SisBanco ::Bye!")
             break
 

@@ -1,7 +1,28 @@
+from abc import ABC, abstractmethod
+
+class ContaAbstrata (ABC):
+    def __init__(self, numero:str):
+        self.__numero = numero
+        self.__saldo = 0.0
+    
+    def creditar(self,valor:float) -> None:
+        self.__saldo -= valor
+    
+    @abstractmethod
+    def debitar(self,valor:float) -> None:
+        pass   
+
+    def get_numero (self) -> str:
+        return self.__numero
+    
+    def get_saldo(self) -> float:
+        return self.__saldo
+
 class Conta(ContaAbstrata):
-    super().__init__(self, numero:str)
+    def __init__(self, numero:str):
+        super().__init__(numero)
     def debitar(self, valor:float):
-        self.__saldo += valor
+        super().__saldo += valor
 
 class Banco:
     def __init__(self, taxa_poupanca:float =0.001,taxa_imposto:float = 0.001):
@@ -90,22 +111,3 @@ class ContaImposto (ContaAbstrata) :
     def set_taxa(self,taxa:float) -> None :
         self.__taxa = taxa
 
-from abc import ABC, abstractmethod
-
-class ContaAbstrata (ABC):
-    def __init__(self, numero:str):
-        self.__numero = numero
-        self.__saldo = 0.0
-    
-    def creditar(self,valor:float) -> None:
-        self.__saldo -= valor
-    
-    @abstractmethod
-    def debitar(self,valor:float) -> None:
-        pass   
-
-    def get_numero (self) -> str:
-        return self.__numero
-    
-    def get_saldo(self) -> float:
-        return self.__saldo
