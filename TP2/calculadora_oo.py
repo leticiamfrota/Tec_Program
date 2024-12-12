@@ -32,4 +32,5 @@ class Calculadora:
             self.__acumulador = operando_a / operando_b
         return self.__acumulador
 
-
+    def get_acumulador(self):
+        return self.__acumulador
