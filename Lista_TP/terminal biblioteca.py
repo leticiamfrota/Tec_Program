@@ -22,11 +22,8 @@ def terminal():
             biblioteca.adicionar_livros(livro)
         
         elif opcao == "2":
-            titulo = input("Título: ")
-            autor = input("Autor: ")
             isbn = input("Isbn: ")
-            livro = Livro(titulo, autor, isbn)
-            biblioteca.remover_livros(livro)
+            biblioteca.remover_livro(isbn)
         
         elif opcao == "3":
             nome = input("Nome: ")
@@ -37,7 +34,7 @@ def terminal():
         elif opcao == "4":
             isbn = input("Isbn: ")
             cpf = input("CPF: ")
-            biblioteca.emprestrar_livro(cpf, isbn)
+            biblioteca.emprestar_livro(cpf, isbn)
           
         elif opcao == "5":
             isbn = input("Isbn: ")
@@ -46,7 +43,7 @@ def terminal():
 
         elif opcao == "6":
             for livro in biblioteca.livros:
-                print(f"Título: {livro.titulo} e Quantidade: {livro.quantidade}")
+                print(f"Título: {livro.titulo}; Quantidade: {livro.quantidade}")
 
         elif opcao == "7":
             for usuario in biblioteca.usuario:

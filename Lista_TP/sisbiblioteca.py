@@ -10,7 +10,7 @@ class Livro:
     
     def remove_exemplar(self, quantidade: int):
         if self.quantidade < quantidade:
-            print("Não à exemplares suficientes")
+            raise ValueError("Quantidade a remover maior do que a disponível.")
         else:
             self.quantidade -= quantidade
 
@@ -25,18 +25,23 @@ class Usuario:
         self.livros_emprestados = []
 
     def emprestar_livros(self, livro: Livro):
-        self.livros_emprestados.append(livro)
-        livro.remove_exemplar(1)
+        if livro.quantidade > 0:
+            self.livros_emprestados.append(livro)
+            livro.remove_exemplar(1)
+        else:
+            raise ValueError("Não há exemplares disponíveis")
 
     def devolver_livros(self, livro: Livro):
-        self.livros_emprestados.remove(livro)
-        livro.adicionar_exemplar(1)
+        for i in self.livros_emprestados:
+            if i.isbn == livro.isbn:
+                self.livros_emprestados.remove(livro)
+                livro.adicionar_exemplar(1)
+                return
+        else:
+            raise ValueError("Este livro não está emprestado por este usuário.")
     
     def listar_emprestimos(self):
-        titulos = []
-        for livro in self.livros_emprestados:
-            titulos.append(livro.titulo)
-        return titulos
+        return [livro.titulo for livro in self.livros_emprestados]
     
 class Biblioteca:
 
@@ -48,33 +53,46 @@ class Biblioteca:
         for i in self.livros:
             if i.isbn == livro.isbn:
                 i.adicionar_exemplar(1)
+                return
         else:
             self.livros.append(livro)
     
-    def remover_livro(self, livro: Livro):
-        for i in self.livros:
-            if i.isbn == livro.isbn:
-                self.livros.remove(i)
+    def remover_livro(self, isbn: str):
+        for livro in self.livros:
+            if livro.isbn == isbn:
+                self.livros.remove(livro)
+                return
         else:
-            print("Livro não existe")
+            raise KeyError("Livro não existe")
         
     def cadastrar_usuario(self, usuario: Usuario):
-        self.usuario.append(usuario)
+        for i in self.usuario:
+            if i.cpf == usuario.cpf:
+                raise ValueError("Usuário já cadastrado")
+        else:
+           self.usuario.append(usuario)
     
     def emprestar_livro(self, cpf: str, isbn: str):
-        for i in self.livro:
-            if i.isbn == isbn:
-                livro = i
-                break
         for usuario in self.usuario:
             if usuario.cpf == cpf:
-                usuario.emprestar_livros(livro)
+                for livro in self.livros:
+                    if livro.isbn == isbn:
+                        usuario.emprestar_livros(livro)
+                        return
+                else:
+                    raise ValueError("Livro Não Cadastrado")
+        else:
+            raise ValueError("Usuário Não Cadastrado")
+                
     
     def devolver_livro(self, cpf: str, isbn: str):
-        for i in self.livro:
-            if i.isbn == isbn:
-                livro = i
-                break
         for usuario in self.usuario:
             if usuario.cpf == cpf:
-                usuario.devolver_livros(livro)
+                for livro in usuario.livros_emprestados:
+                    if livro.isbn == isbn:
+                        usuario.devolver_livros(livro)
+                        return
+        else:
+            raise ValueError("Usuário Não Cadastrado")
+                
+                
