@@ -44,6 +44,13 @@ class Usuario:
         return [livro.titulo for livro in self.livros_emprestados]
     
 class Biblioteca:
+    def registrar_log(func):
+        def wrapper(*args, **kwargs):
+            resultado = func(*args, **kwargs)
+            with open("log.txt", "a") as log:
+                log.write(f"Operacao:{func.__name__}, Args:{args}, Kwargs : {kwargs}")
+                return resultado
+        return wrapper
 
     def __init__(self):
         self.livros = []
@@ -72,6 +79,7 @@ class Biblioteca:
         else:
            self.usuario.append(usuario)
     
+    @registrar_log
     def emprestar_livro(self, cpf: str, isbn: str):
         for usuario in self.usuario:
             if usuario.cpf == cpf:
@@ -95,4 +103,4 @@ class Biblioteca:
         else:
             raise ValueError("Usuário Não Cadastrado")
                 
-                
+
