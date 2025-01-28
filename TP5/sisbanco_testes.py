@@ -60,6 +60,60 @@ class TestContaEspecial(unittest.TestCase):
         conta.creditar(10)
         self.assertEqual(conta.get_saldo(), 10, "Erro no creditar")
 
+class TestContaImposto(unittest.TestCase):
+    def test_debitar(self):
+        conta = ContaImposto("123")
+        conta.debitar(5)
+        self.assertEqual(conta.get_saldo(), - 5 - (conta.get_taxa() * 5), "Erro no debitar" )
+
+    def test_get_taxa(self):
+        conta = ContaImposto("123")
+        self.assertEqual(conta.get_taxa(), 0.001, "Erro no gat_taxa")
+    
+    def test_set_taxa(self):
+        conta = ContaImposto("123")
+        conta.set_taxa(0.1)
+        self.assertEqual(0.1, conta.get_taxa(), "Erro no set_taxa")
+
+class TestBanco(unittest.TestCase):
+    def test_cadastrar(self):
+        banco = Banco()
+        conta = Conta("123")
+        banco.cadastrar(conta)
+        self.assertEqual(banco.procurar("123"), conta)
+        conta2 = ContaEspecial("234")
+        banco.cadastrar(conta2)
+        self.assertEqual(banco.procurar("234"), conta2)
+
+    def test_creditar(self):
+        banco = Banco()
+        conta = Conta("123")
+        banco.cadastrar(conta)
+        conta2 = ContaEspecial("234")
+        banco.cadastrar(conta2)
+        banco.creditar("123", 2)
+        banco.creditar("234", 2)
+        self.assertEqual(banco.saldo("123"), 2)
+        self.assertEqual(banco.saldo("234"), 2)
+
+    def test_debitar(self):
+        banco = Banco()
+        conta = Conta("123")
+        banco.cadastrar(conta)
+        conta2 = ContaEspecial("234")
+        banco.cadastrar(conta2)
+        banco.debitar("123", 2)
+        banco.debitar("234", 2)
+        self.assertEqual(banco.saldo("123"), -2)
+        self.assertEqual(banco.saldo("234"), -2)
+    
+    def test_saldo(self):
+        banco = Banco()
+        conta = Conta("123")
+        banco.cadastrar(conta)
+        self.assertEqual(banco.saldo("123"), 0)
+
+            
 
 if __name__ == "__main__":
     unittest.main()

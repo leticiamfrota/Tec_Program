@@ -105,7 +105,7 @@ class ContaImposto (ContaAbstrata) :
         super().__init__(numero)
         self.__taxa = 0.001
     def debitar(self,valor:float) -> None :
-        self._saldo -= valor + (valor * self.__taxa())
+        self._saldo -= valor + (valor * self.__taxa)
     def get_taxa (self) -> float :
         return self.__taxa
     def set_taxa(self,taxa:float) -> None :
