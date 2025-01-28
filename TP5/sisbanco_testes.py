@@ -1,4 +1,4 @@
-from sisbanco import Conta, ContaAbstrata, Banco, ContaImposto, ContaPoupanca, ContaEspecial
+from sisbanco_bugs import Conta, ContaAbstrata, Banco, ContaImposto, ContaPoupanca, ContaEspecial
 import unittest
 
 class TestConta(unittest.TestCase):
@@ -80,10 +80,10 @@ class TestBanco(unittest.TestCase):
         banco = Banco()
         conta = Conta("123")
         banco.cadastrar(conta)
-        self.assertEqual(banco.procurar("123"), conta)
+        self.assertEqual(banco.procurar("123"), conta, "Erro no cadastro")
         conta2 = ContaEspecial("234")
         banco.cadastrar(conta2)
-        self.assertEqual(banco.procurar("234"), conta2)
+        self.assertEqual(banco.procurar("234"), conta2, "Erro no cadastro")
 
     def test_creditar(self):
         banco = Banco()
@@ -93,8 +93,8 @@ class TestBanco(unittest.TestCase):
         banco.cadastrar(conta2)
         banco.creditar("123", 2)
         banco.creditar("234", 2)
-        self.assertEqual(banco.saldo("123"), 2)
-        self.assertEqual(banco.saldo("234"), 2)
+        self.assertEqual(banco.saldo("123"), 2, "Erro no creditar")
+        self.assertEqual(banco.saldo("234"), 2, "Erro no creditar")
 
     def test_debitar(self):
         banco = Banco()
@@ -104,14 +104,44 @@ class TestBanco(unittest.TestCase):
         banco.cadastrar(conta2)
         banco.debitar("123", 2)
         banco.debitar("234", 2)
-        self.assertEqual(banco.saldo("123"), -2)
-        self.assertEqual(banco.saldo("234"), -2)
+        self.assertEqual(banco.saldo("123"), -2, "Erro no debitar")
+        self.assertEqual(banco.saldo("234"), -2, "Erro no debitar")
     
     def test_saldo(self):
         banco = Banco()
         conta = Conta("123")
         banco.cadastrar(conta)
-        self.assertEqual(banco.saldo("123"), 0)
+        self.assertEqual(banco.saldo("123"), 0, "Erro no saldo")
+
+    def test_transferir(self):
+        banco = Banco()
+        valor = 1
+        conta_origem = Conta("122")
+        conta_destino = Conta("134")
+        banco.cadastrar(conta_origem)
+        banco.cadastrar(conta_destino)
+        banco.transferir(conta_origem, conta_destino, valor)
+        self.assertEqual(banco.saldo("122"), -1, "Erro no trasferir")
+        self.assertEqual(banco.saldo("134"), 1, "Erro no trasferir")
+
+
+    def test_get_taxa_poupanca(self):
+        banco = Banco()
+        self.assertEqual(banco.get_taxa_poupanca(), banco._taxa_poupanca, "Erro valor inicial taxa poupança")
+        banco.set_taxa_poupanca(2)
+        self.assertEqual(banco.get_taxa_poupanca(), 2, "Erro no set taxa poupanca")
+
+    def test_get_taxa_imposto(self):
+        banco = Banco()
+        self.assertEqual(banco.get_taxa_imposto(), banco._taxa_imposto, "Erro valor inicial taxa imposto")
+        banco.set_taxa_imposto(2)
+        self.assertEqual(banco.get_taxa_imposto(), 2, "Erro no set taxa imposto")
+    
+    def test_render_juros(self):
+        pass
+
+    def test_render_bonus(self):
+        pass
 
             
 
