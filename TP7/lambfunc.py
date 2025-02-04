@@ -11,11 +11,11 @@ print(par_impar(3))
 
 numeros = [1,2,3]
 
-'''quadrado = list(map(lambda numero: numero**2, numeros))
+quadrado = list(map(lambda numero: numero**2, numeros))
 
 print(quadrado)
 
-maiuscula = map(lambda letra: letra.upper(), "ovo")
+'''maiuscula = map(lambda letra: letra.upper(), "ovo")
 
 print("".join(maiuscula))'''
 
